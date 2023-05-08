@@ -1,25 +1,23 @@
-const fs = require("fs");
-const uuid = require("uuid");
+const File = require("../helpers/File");
+const HttpRes = require("../helpers/HttpRes");
+const Task = require("../models/task");
 
 const postTask = (req, res) => {
-  let { toDoList } = req;
-  if (!toDoList) return;
+  const task = req.body;
 
-  const task = {
-    id: toDoList.length + 1,
-    uuid: uuid.v4(),
-    ...req.body,
-  };
-  toDoList = [...toDoList, task];
-
-  try {
-    fs.writeFileSync("db.json", JSON.stringify(toDoList));
-    res.status(201).json(task);
-  } catch (error) {
-    const errMsg =
-      "There's been an error processing your request. Try again later.";
-    res.status(500).json(errMsg);
+  const toDoList = File.open();
+  if (!toDoList) {
+    HttpRes.status500(res);
+    return;
   }
+
+  const newTask = Task.insertTask(task, toDoList);
+  if (!newTask) {
+    HttpRes.status500(res);
+    return;
+  }
+
+  res.status(201).json(newTask);
 };
 
 module.exports = postTask;
