@@ -1,6 +1,9 @@
+const File = require("../helpers/File");
+
 const getTasks = (req, res) => {
-  const { toDoList } = req;
-  if (!toDoList) return;
+  const toDoList = File.open();
+  if (!toDoList)
+    res.status(500).json({ error: "Something went wrong. Contact support." });
 
   res.status(200).json(toDoList);
 };
