@@ -1,29 +1,25 @@
 const fs = require("fs");
+const Task = require("../models/task");
+const HttpRes = require("../helpers/HttpRes");
+const File = require("../helpers/File");
 
 const patchTask = (req, res) => {
-  let { toDoList } = req;
-  if (!toDoList) return;
-
-  const { uuid } = req.body;
-  const updatedFields = req.body;
-
-  let task = toDoList.find((task) => task.uuid === uuid);
-  if (!task) {
-    res.status(404).json({ message: "Task not found" });
+  const toDoList = File.open();
+  if (!toDoList) {
+    HttpRes.status500(res);
     return;
   }
 
-  task = { ...task, ...updatedFields };
-  toDoList = toDoList.map((t) => (t.uuid === uuid ? task : t));
-
-  try {
-    fs.writeFileSync("db.json", JSON.stringify(toDoList));
-    res.status(200).json(task);
-  } catch (error) {
-    const errMsg =
-      "There's been an error processing your request. Try again later.";
-    res.status(500).json(errMsg);
+  const updatedTask = Task.updateTask(req.body, toDoList);
+  if (updatedTask === 404) {
+    return res.status(404).json({ message: "Task not found" });
   }
+  if (updatedTask === 500) {
+    HttpRes.status500(res);
+    return;
+  }
+
+  res.status(200).json(updatedTask);
 };
 
 module.exports = patchTask;

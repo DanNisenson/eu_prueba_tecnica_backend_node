@@ -1,8 +1,7 @@
 const express = require("express");
-const openFile = require("../middlewares/openFile");
 
 const router = express.Router();
 
-router.use("/task", openFile, require("./task"));
+router.use("/task", require("./task"));
 
 module.exports = router;
