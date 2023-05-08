@@ -1,25 +1,29 @@
 const fs = require("fs");
 
 const patchTask = (req, res) => {
-  let toDoList = JSON.parse(fs.readFileSync("db.json", "utf8"));
+  let { toDoList } = req;
+  if (!toDoList) return;
+
   const { uuid } = req.body;
   const updatedFields = req.body;
 
   let task = toDoList.find((task) => task.uuid === uuid);
-  if (!task) return res.status(404).json({ message: "Task not found" });
+  if (!task) {
+    res.status(404).json({ message: "Task not found" });
+    return;
+  }
 
   task = { ...task, ...updatedFields };
   toDoList = toDoList.map((t) => (t.uuid === uuid ? task : t));
 
   try {
     fs.writeFileSync("db.json", JSON.stringify(toDoList));
+    res.status(200).json(task);
   } catch (error) {
     const errMsg =
       "There's been an error processing your request. Try again later.";
-    return res.status(500).json(errMsg);
+    res.status(500).json(errMsg);
   }
-
-  return res.status(200).json(task);
 };
 
 module.exports = patchTask;

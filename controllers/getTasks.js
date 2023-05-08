@@ -1,7 +1,6 @@
-const fs = require("fs");
-
 const getTasks = (req, res) => {
-  const toDoList = JSON.parse(fs.readFileSync("db.json", "utf8"));
+  const { toDoList } = req;
+  if (!toDoList) return;
 
   res.status(200).json(toDoList);
 };
