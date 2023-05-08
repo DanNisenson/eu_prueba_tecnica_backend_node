@@ -3,30 +3,42 @@
     "id": 1,
     "uuid": "0a3e1d3c-9277-4a0e-94c9-9d8f31c1d449",
     "title": "Buy groceries",
+    "color": "white",
     "completed": false
   },
   {
     "id": 2,
     "uuid": "9ca5f5a5-5b4c-4c8a-bcb1-fc5e5e5d5e5f",
     "title": "Finish homework",
+    "color": "white",
     "completed": true
   },
   {
     "id": 3,
     "uuid": "8b2a2c4d-947f-4e71-a8ad-f4dfc6f72a55",
     "title": "Call mom",
+    "color": "white",
     "completed": false
   },
   {
     "id": 4,
     "uuid": "f319a926-fc9a-4831-bd1a-2af2c56fca6a",
     "title": "Go for a run",
+    "color": "white",
     "completed": false
   },
   {
     "id": 5,
     "uuid": "ec0a98e1-1b80-4c08-91e6-7d62a6485f71",
     "title": "Read book",
+    "color": "white",
     "completed": true
+  },
+  {
+    "id": 6,
+    "uuid": "61c145b7-e46f-4674-9305-52936177eb99",
+    "title": "Buy soy sauce",
+    "color": "white",
+    "completed": false
   }
 ]

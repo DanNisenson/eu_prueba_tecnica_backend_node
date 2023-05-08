@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/", require("../controllers/getTasks"));
 
-// router.post("/", require("../controllers/postTask"));
+router.post("/", require("../controllers/postTask"));
 
 // router.patch("/:uuid", require("../controllers/patchTask"));
 
