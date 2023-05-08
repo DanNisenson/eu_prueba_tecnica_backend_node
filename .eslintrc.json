@@ -9,5 +9,9 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
-  "rules": {}
+  "rules": {
+    "no-use-before-define": "off",
+    "prefer-template": "off",
+    "no-console": "off"
+  }
 }
