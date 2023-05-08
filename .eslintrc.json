@@ -12,6 +12,7 @@
   "rules": {
     "no-use-before-define": "off",
     "prefer-template": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "no-shadow": "off"
   }
 }
