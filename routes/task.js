@@ -8,6 +8,6 @@ router.post("/", require("../controllers/postTask"));
 
 router.patch("/", require("../controllers/patchTask"));
 
-// router.delete("/:uuid", require("../controllers/deleteTask"));
+router.delete("/:uuid", require("../controllers/deleteTask"));
 
 module.exports = router;
