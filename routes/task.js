@@ -2,7 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", require("../controllers/getTasks"));
+router.get("/all", require("../controllers/getTasks"));
+
+router.patch("/all", require("../controllers/patchAllTasks"));
 
 router.post("/", require("../controllers/postTask"));
 

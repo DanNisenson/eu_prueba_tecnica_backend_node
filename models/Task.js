@@ -3,10 +3,12 @@ const File = require("../helpers/File");
 
 class Task {
   static insertTask(task, toDoList) {
+    const ids = toDoList.map((task) => task.id);
+    const lastId = toDoList.length > 0 ? Math.max(...ids) : 0;
     task = {
-      id: toDoList.length + 1,
-      uuid: uuid.v4(),
       ...task,
+      id: lastId + 1,
+      uuid: uuid.v4(),
     };
     toDoList = [...toDoList, task];
 
@@ -29,6 +31,13 @@ class Task {
     if (!result) return 500;
 
     return newTask;
+  }
+
+  static updateAllTasks(body) {
+    const result = File.write(body);
+    if (!result) return 500;
+
+    return body;
   }
 
   static deleteTask(uuid, toDoList) {
