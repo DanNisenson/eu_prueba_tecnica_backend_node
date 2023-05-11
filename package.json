@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=5000"
   },
   "dependencies": {
     "cors": "^2.8.5",
