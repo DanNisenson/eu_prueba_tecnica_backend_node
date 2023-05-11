@@ -1,27 +1,46 @@
-const app = require("../app");
 const request = require("supertest");
+const app = require("../app");
 
-const testTask = {
-  uuid: "dff77221-eebc-4a39-8283-044da5c31656",
-  title: "this is a title",
+const task = {
+  id: 0,
+  uuid: "",
+  title: "Test Task",
+  tag: "none",
+  completed: false,
 };
 
 describe("PATCH /v1/task/", () => {
-  it("responds with JSON containing the patched task", (done) => {
-    request(app)
-      .patch("/v1/task/")
-      .set("Accept", "application/json")
-      .send(testTask)
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .end((err, res) => {
-        if (err) return done(err);
-        expect(res.body.id).toBeGreaterThan(0);
-        expect(typeof res.body.uuid).toBe("string");
-        expect(typeof res.body.title).toBe("string");
-        expect(typeof res.body.tag).toBe("string");
-        expect(typeof res.body.completed).toBe("boolean");
-        done();
-      });
+  it("should update an existing task", async () => {
+    const createdTaskResponse = await request(app).post("/v1/task").send(task);
+
+    const uuid = createdTaskResponse.body.uuid;
+    const updatedTask = {
+      uuid,
+      title: "Updated Task",
+    };
+    const updateResponse = await request(app)
+      .patch("/v1/task")
+      .send(updatedTask);
+    console.log(updateResponse.body);
+    expect(updateResponse.status).toBe(200);
+    expect(updateResponse.body.id).toBeGreaterThan(0);
+    expect(updateResponse.body.uuid).toEqual(uuid);
+    expect(updateResponse.body.title).toEqual(updatedTask.title);
+    expect(typeof updateResponse.body.tag).toBe("string");
+    expect(typeof updateResponse.body.completed).toBe("boolean");
+  });
+
+  it("should return 404 for non-existing task", async () => {
+    const updatedTask = {
+      uuid: "non-existing-uuid",
+      title: "Updated Task",
+      tag: "test",
+    };
+    const updateResponse = await request(app)
+      .patch("/v1/task")
+      .send(updatedTask);
+
+    expect(updateResponse.status).toBe(404);
+    expect(updateResponse.body).toEqual({ message: "Task not found" });
   });
 });
